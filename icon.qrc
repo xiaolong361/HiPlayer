@@ -1,0 +1,30 @@
+<RCC>
+    <qresource prefix="/hiplayer">
+        <file>resources/about.png</file>
+        <file>resources/addMusic_40_40.png</file>
+        <file>resources/HiPlayer_16_16_2.png</file>
+        <file>resources/HiPlayer_32_32_2.png</file>
+        <file>resources/HiPlayer_38_38.png</file>
+        <file>resources/HiPlayer_48_48_2.png</file>
+        <file>resources/HiPlayer_80_80_2.png</file>
+        <file>resources/HiPlayer_256_256_2.png</file>
+        <file>resources/Last_40_40.png</file>
+        <file>resources/Lyric_40_40.png</file>
+        <file>resources/mode.png</file>
+        <file>resources/Next_40_40.png</file>
+        <file>resources/Pause_60_60.png</file>
+        <file>resources/Pause_100_100.png</file>
+        <file>resources/Play_60_60.png</file>
+        <file>resources/Play_100_100.png</file>
+        <file>resources/Volumn_40_40.png</file>
+        <file>resources/关闭按钮.png</file>
+        <file>resources/缩小按钮.png</file>
+        <file>resources/最小化按钮.png</file>
+        <file>resources/background.png</file>
+        <file>resources/default_album.jpg</file>
+        <file>resources/关闭.png</file>
+        <file>resources/缩小.png</file>
+        <file>resources/最小化.png</file>
+        <file>resources/lrc_background.png</file>
+    </qresource>
+</RCC>
