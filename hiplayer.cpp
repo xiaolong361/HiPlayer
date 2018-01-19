@@ -36,9 +36,9 @@ void HiPlayer::hi_initUi()//初始化界面
     playSlider = new PlaySlider(this);
     playSlider->setObjectName(QStringLiteral("playSlider"));
     playSlider->setStyleSheet("QSlider::groove:horizontal{border:0px;height:4px;}"
-        "QSlider::sub-page:horizontal{background:#0096ff;}"
-        "QSlider::add-page:horizontal{background:lightgray;} "
-        "QSlider::handle:horizontal{background:white;width:10px;border:#51b5fb 10px;border-radius:5px;margin:-3px 0px -3px 0px;}");
+                              "QSlider::sub-page:horizontal{background:#0096ff;}"
+                              "QSlider::add-page:horizontal{background:lightgray;} "
+                              "QSlider::handle:horizontal{background:white;width:10px;border:#51b5fb 10px;border-radius:5px;margin:-3px 0px -3px 0px;}");
     playSlider->setGeometry(QRect(40, 150, 290, 20));
     playSlider->setOrientation(Qt::Horizontal);
 
@@ -274,10 +274,10 @@ void HiPlayer::hi_initUi()//初始化界面
     playlistTable->setPalette(pal);
     //设置竖直滚动条样式
     playlistTable->setStyleSheet("QScrollBar{background:transparent; width: 5px;}"
-        "QScrollBar::handle{background:lightgray; border:2px solid transparent; border-radius:5px;}"
-        "QScrollBar::handle:hover{background:gray;}"
-        "QScrollBar::sub-line{background:transparent;}"
-        "QScrollBar::add-line{background:transparent;}");
+                                 "QScrollBar::handle{background:lightgray; border:2px solid transparent; border-radius:5px;}"
+                                 "QScrollBar::handle:hover{background:gray;}"
+                                 "QScrollBar::sub-line{background:transparent;}"
+                                 "QScrollBar::add-line{background:transparent;}");
     //使拖动操作生效
     playlistTable->setAcceptDrops(true);
     setAcceptDrops(true);
@@ -366,11 +366,11 @@ void HiPlayer::hi_initMenuActions()
 
     playModeMenu = new QMenu(modeButton);
     playModeMenu->setStyleSheet(
-        "QMenu{padding:5px;background:white;border:1px solid gray;}"
-        "QMenu::item{padding:0px 40px 0px 30px;height:25px;}"
-        "QMenu::item:selected:enabled{background:#0096ff;color:white;}"
-        "QMenu::item:selected:!enabled{background:transparent;}"
-        "QMenu::separator{height:1px;background:lightgray;margin:5px 0px 5px 0px;}");
+                "QMenu{padding:5px;background:white;border:1px solid gray;}"
+                "QMenu::item{padding:0px 40px 0px 30px;height:25px;}"
+                "QMenu::item:selected:enabled{background:#0096ff;color:white;}"
+                "QMenu::item:selected:!enabled{background:transparent;}"
+                "QMenu::separator{height:1px;background:lightgray;margin:5px 0px 5px 0px;}");
     playModeMenu->addActions(modeActionGroup->actions());
 
 
@@ -398,18 +398,18 @@ void HiPlayer::hi_initMenuActions()
     contextMenuMore->addAction(removeAll);
 
     contextMenuLess->setStyleSheet(
-        "QMenu{padding:5px;background:white;border:1px solid gray;}"
-        "QMenu::item{padding:0px 40px 0px 30px;height:25px;}"
-        "QMenu::item:selected:enabled{background:#0096ff;color:white;}"
-        "QMenu::item:selected:!enabled{background:transparent;}"
-        "QMenu::separator{height:1px;background:lightgray;margin:5px 0px 5px 0px;}");
+                "QMenu{padding:5px;background:white;border:1px solid gray;}"
+                "QMenu::item{padding:0px 40px 0px 30px;height:25px;}"
+                "QMenu::item:selected:enabled{background:#0096ff;color:white;}"
+                "QMenu::item:selected:!enabled{background:transparent;}"
+                "QMenu::separator{height:1px;background:lightgray;margin:5px 0px 5px 0px;}");
 
     contextMenuMore->setStyleSheet(
-        "QMenu{padding:5px;background:white;border:1px solid gray;}"
-        "QMenu::item{padding:0px 40px 0px 30px;height:25px;}"
-        "QMenu::item:selected:enabled{background:#0096ff;color:white;}"
-        "QMenu::item:selected:!enabled{background:transparent;}"
-        "QMenu::separator{height:1px;background:lightgray;margin:5px 0px 5px 0px;}");
+                "QMenu{padding:5px;background:white;border:1px solid gray;}"
+                "QMenu::item{padding:0px 40px 0px 30px;height:25px;}"
+                "QMenu::item:selected:enabled{background:#0096ff;color:white;}"
+                "QMenu::item:selected:!enabled{background:transparent;}"
+                "QMenu::separator{height:1px;background:lightgray;margin:5px 0px 5px 0px;}");
 
 }
 
@@ -459,7 +459,7 @@ void HiPlayer::paintEvent(QPaintEvent * event)
     QWidget::paintEvent(event);
 }
 
-void HiPlayer::slotPlaylistDoubleClicked(int row, int )
+void HiPlayer::slotPlaylistDoubleClicked(int row, int )//双击本地歌单列表
 {
     QFile file(playList.at(row));
     if (!file.open(QIODevice::ReadOnly)) {
@@ -552,15 +552,15 @@ void HiPlayer::slotSetPosition()//更新播放进度
 {
     int pos = slotGetPlayPosition();
     //int state = mediaPlayer->state();
-/*	if (qAbs(mediaPlayer->position() - pos) > 99)*/
+    /*	if (qAbs(mediaPlayer->position() - pos) > 99)*/
     mediaPlayer->setPosition(pos);
     mediaPlayer->play();
     playButton->setVisible(false);
     pauseButton->setVisible(true);
-// 	if (state == QMediaPlayer::PlayingState)
-// 		mediaPlayer->play();
-// 	else
-// 		mediaPlayer->pause();
+    // 	if (state == QMediaPlayer::PlayingState)
+    // 		mediaPlayer->play();
+    // 	else
+    // 		mediaPlayer->pause();
 }
 
 void HiPlayer::slotUpdatePosition(qint64 position)//更新歌词、时间显示
@@ -625,7 +625,12 @@ void HiPlayer::slotUpdateProcessbar(qint64 duration)
 void HiPlayer::slotUpdateMetaData()//更新显示在界面上的正在播放音乐的信息
 {
     currentIndex = mediaList->currentIndex();
-    playingFile = playList.at(currentIndex);
+    qDebug()<<"slotUpdateMetaData()-->mediaList->currentIndex():"<<currentIndex;
+    if(currentIndex>=0)//单曲播放模式下,歌曲播放结束之后mediaList->currentIndex()返回-1
+    {
+        playingFile = playList.at(currentIndex);
+    }
+    qDebug()<<"slotUpdateMetaData()-->playingFile="<<playingFile;
 
     songName.clear();
     songArtist.clear();
@@ -710,14 +715,15 @@ void HiPlayer::slotPauseButtonClicked()
     }
 }
 
-void HiPlayer::slotNextButtonClicked()
+void HiPlayer::slotNextButtonClicked()//点击播放下一首按钮
 {
     mediaList->setPlaybackMode(QMediaPlaylist::Loop);
 
-//    if (mediaList->currentIndex() != mediaList->nextIndex())
-//        mediaList->setCurrentIndex(mediaList->nextIndex());
-//    else if (mediaList->currentIndex() != mediaList->previousIndex())
-//        mediaList->setCurrentIndex(mediaList->previousIndex());
+    //TODO:注释掉下列代码之后不影响功能
+    //    if (mediaList->currentIndex() != mediaList->nextIndex())
+    //        mediaList->setCurrentIndex(mediaList->nextIndex());
+    //    else if (mediaList->currentIndex() != mediaList->previousIndex())
+    //        mediaList->setCurrentIndex(mediaList->previousIndex());
 
     mediaList->setCurrentIndex(mediaList->nextIndex());
     if (!mediaPlayer->isAudioAvailable()){
@@ -729,14 +735,15 @@ void HiPlayer::slotNextButtonClicked()
     slotSetPlayMode();
 }
 
-void HiPlayer::slotLastButtonClicked()
+void HiPlayer::slotLastButtonClicked()//单击下一首按钮
 {
     mediaList->setPlaybackMode(QMediaPlaylist::Loop);
-//qDebug()<<"mediaList->currentIndex()="<<mediaList->currentIndex();
-//    if(mediaList->currentIndex() != mediaList->previousIndex())
-//        mediaList->setCurrentIndex(mediaList->previousIndex());
-//    else
-//        mediaList->setCurrentIndex(mediaList->nextIndex());
+    //TODO:注释掉下列代码之后不影响功能
+    //qDebug()<<"mediaList->currentIndex()="<<mediaList->currentIndex();
+    //    if(mediaList->currentIndex() != mediaList->previousIndex())
+    //        mediaList->setCurrentIndex(mediaList->previousIndex());
+    //    else
+    //        mediaList->setCurrentIndex(mediaList->nextIndex());
 
     mediaList->setCurrentIndex(mediaList->previousIndex());
     if (!mediaPlayer->isAudioAvailable()){
@@ -946,7 +953,6 @@ void HiPlayer::hi_openMusic(const QString& filePath)
         mediaList->setCurrentIndex(playList.indexOf(filePath));
         mediaPlayer->play();
     }
-
 }
 
 void HiPlayer::hi_setTableColor()//列表颜色交替
@@ -980,7 +986,7 @@ void HiPlayer::hi_initNetwork()//初始化网络模块
 {
     networker = NetWorker::getInstance();
     receiveState = RECEIVE_INFO;
-/*
+    /*
     1.[var]表示值传递方式捕捉变量var；
     2.[=]表示值传递方式捕捉所有父作用域的变量（包括this）；
     3.[&var]表示引用传递捕捉变量var；
@@ -1022,10 +1028,10 @@ void HiPlayer::hi_fetchNetData()//获取网络数据
     switch (receiveState){
     case RECEIVE_INFO:
         networker->get(
-            QString("http://tingapi.ting.baidu.com/v1/restserver/ting?from=webapp_music&method=baidu.ting.search.catalogSug&format=json&callback=&query=" +
-            query +
-            "&_=1413017198449")
-            );
+                    QString("http://tingapi.ting.baidu.com/v1/restserver/ting?from=webapp_music&method=baidu.ting.search.catalogSug&format=json&callback=&query=" +
+                            query +
+                            "&_=1413017198449")
+                    );
         break;
     case RECEIVE_LINK:
         networker->get(QString("http://ting.baidu.com/data/music/links?songIds=" + songId));
