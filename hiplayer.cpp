@@ -22,7 +22,7 @@ void HiPlayer::hi_initUi()//初始化界面
     picLabel = new QLabel( this);
     picLabel->setGeometry(QRect(40, 45, 100, 100));
     picLabel->setScaledContents(true);
-    picLabel->setPixmap(QPixmap(":/hiplayer/resources/default_album.jpg"));
+    picLabel->setPixmap(QPixmap(":/hiplayer/resources/album.png"));
 
     nameLabel = new HiLabel(this);
     nameLabel->setGeometry(QRect(150, 55, 220, 20));
@@ -324,7 +324,7 @@ void HiPlayer::hi_initConnections()
 
     connect(playSlider,SIGNAL(sigValueClicked(int)),this,SLOT(slotSliderValueClicked(int)));
     //connect(this, SIGNAL(destroyed()), this, SLOT(slotClose()));
-    //connect(mediaList, SIGNAL(mediaInserted()), this, SLOT(slotWriteList()));
+    connect(mediaList, SIGNAL(mediaInserted()), this, SLOT(slotWriteList()));
 }
 
 
@@ -464,7 +464,7 @@ void HiPlayer::slotPlaylistDoubleClicked(int row, int )//双击本地歌单列�
     QFile file(playList.at(row));
     if (!file.open(QIODevice::ReadOnly)) {
         playlistTable->item(row,1)->setText(QString::fromUtf8("失效"));
-        return ;
+        return;
     }
     file.close();
     mediaList->setCurrentIndex(row);
@@ -473,20 +473,21 @@ void HiPlayer::slotPlaylistDoubleClicked(int row, int )//双击本地歌单列�
 }
 
 void HiPlayer::slotRemoveCurrentMusic()
-{//TODO:清除文件中的对应信息.
+{//清除当前音乐后更新本地用于记录列表的数据文件
     playList.removeAt(currentIndex);
     playlistTable->removeRow(currentIndex);
     mediaList->removeMedia(currentIndex);
     hi_setTableColor();
+    slotWriteList();
 }
 
-void HiPlayer::slotOpenMusic()
+void HiPlayer::slotOpenMusic()//打开音乐菜单
 {
     QStringList fileList = QFileDialog::getOpenFileNames(this,QString::fromUtf8("添加音乐"),QString(),QString("MP3 (*.mp3)"));
     hi_addList(fileList);
 }
 
-void HiPlayer::slotOpenDir()
+void HiPlayer::slotOpenDir()//打开目录菜单
 {
     QString dirPath = QFileDialog::getExistingDirectory(this,QString::fromUtf8("选择目录"));
     if(dirPath.size() == 0)
@@ -514,7 +515,7 @@ void HiPlayer::slotClearList()
     albumLabel->setText(tr("Album" ));
 }
 
-void HiPlayer::hi_addList(QStringList list)
+void HiPlayer::hi_addList(QStringList list)//将文件列表list添加到界面列表上,并更新数据文件
 {
     foreach(QString fileName,list)
     {
@@ -635,10 +636,10 @@ void HiPlayer::slotUpdateMetaData()//更新显示在界面上的正在播放音�
     songName.clear();
     songArtist.clear();
     lrcMap.clear();
-    picLabel->setPixmap(QPixmap(":/HiPlayer/Resources/default_album.jpg"));
+    picLabel->setPixmap(QPixmap(":/hiplayer/resources/album.png"));
 
 
-    songName = mediaPlayer->metaData(QMediaMetaData::Title).toString();
+    songName = mediaPlayer->metaData(QMediaMetaData::Title).toString();//通过歌曲文件获取歌名
     if (songName.size() > 28)
         nameLabel->hi_setText(songName, TEXT_SPEED);
     else{
@@ -652,14 +653,13 @@ void HiPlayer::slotUpdateMetaData()//更新显示在界面上的正在播放音�
 
     lrcWidget->setText(songName);
 
-    if (!songName.isEmpty()){
+    if (!songName.isEmpty()){//若歌曲名不为空,则搜索图片和歌词
         bool pic = hi_getPicFromFile();
         bool lrc = slotResolveLrc(playingFile);
         if (!(pic && lrc)){//本地均没有找到专辑图片和歌词
             receiveState = RECEIVE_INFO;
             hi_fetchNetData();
         }
-
     }
 
     if(nameLabel->text() == "")
@@ -669,13 +669,14 @@ void HiPlayer::slotUpdateMetaData()//更新显示在界面上的正在播放音�
     if(albumLabel->text() == "")
         albumLabel->setText(QString::fromUtf8("未知专辑"));
 
-    if(playlistTable->rowCount() == 0){
-        timeLabel->setText(tr("00:00"));
-        nameLabel->setText(tr("Name " ));
-        musicianLabel->setText(tr("Musician" ));
-        albumLabel->setText(tr("Album" ));
-    }
-
+//貌似永远不会执行
+//    if(playlistTable->rowCount() == 0)
+//    {
+//        timeLabel->setText(tr("00:00"));
+//        nameLabel->setText(tr("Name " ));
+//        musicianLabel->setText(tr("Musician" ));
+//        albumLabel->setText(tr("Album" ));
+//    }
 }
 
 void HiPlayer::slotUpdateState(QMediaPlayer::State state)//更新播放状态
@@ -827,7 +828,7 @@ void HiPlayer::slotSetModeFromMini(int m)
     }
 }
 
-bool HiPlayer::slotResolveLrc(const QString & source_file_name)//根据歌曲文件名解析LRC歌词
+bool HiPlayer::slotResolveLrc(const QString & source_file_name)//TODO:根据歌曲文件名解析LRC歌词
 {
     lrcMap.clear();
     if(source_file_name.isEmpty())
@@ -925,7 +926,7 @@ void HiPlayer::slotReadList()
 
 }
 
-void HiPlayer::slotWriteList()
+void HiPlayer::slotWriteList()//将playList中的内容写入本地数据文件
 {
     QFile text(dirPath + "/HiPlayerList.list");
     QStringList outList = playList;
@@ -955,7 +956,7 @@ void HiPlayer::hi_openMusic(const QString& filePath)
     }
 }
 
-void HiPlayer::hi_setTableColor()//列表颜色交替
+void HiPlayer::hi_setTableColor()//设置列表颜色交替
 {
     for (int i = 0; i < playlistTable->rowCount(); i++)
     {
@@ -1022,7 +1023,7 @@ void HiPlayer::hi_initNetwork()//初始化网络模块
     });
 }
 
-void HiPlayer::hi_fetchNetData()//获取网络数据
+void HiPlayer::hi_fetchNetData()   //TODO:获取网络数据
 {
     QString query = QUrl::toPercentEncoding(songName + " " + songArtist);
     switch (receiveState){
@@ -1220,7 +1221,7 @@ void HiPlayer::hi_recvPic(QNetworkReply *reply)//TODO
     reply->deleteLater();
 }
 
-bool HiPlayer::hi_getPicFromFile() //从磁盘中读取专辑图片
+bool HiPlayer::hi_getPicFromFile() //TODO:从磁盘中读取专辑图片
 {
     if (playingFile.isEmpty())
         return false;

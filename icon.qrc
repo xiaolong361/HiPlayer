@@ -26,5 +26,6 @@
         <file>resources/缩小.png</file>
         <file>resources/最小化.png</file>
         <file>resources/lrc_background.png</file>
+        <file>resources/album.png</file>
     </qresource>
 </RCC>
