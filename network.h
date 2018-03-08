@@ -30,7 +30,7 @@ signals:
     void finished(QNetworkReply *reply);
 
 private:
-    class Private;
+    class Private;//在类中定义另一个类
     friend class Private;
     Private * d;
 
@@ -39,6 +39,9 @@ private:
     explicit NetWorker(QObject *parent = 0);
     NetWorker(const NetWorker &) Q_DECL_EQ_DELETE;
     NetWorker &operator=(NetWorker rhs) Q_DECL_EQ_DELETE;
+    //对于 C++ 的类，如果程序员没有为其定义特殊成员函数，那么
+    //在需要用到某个特殊成员函数的时候，编译器会隐式的自动生成一个默认的特殊成员函数，
+    //比如默认的构造函数、析构函数、拷贝构造函数以及拷贝赋值运算符。
 };
 
 #endif // NETWORK_H

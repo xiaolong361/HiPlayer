@@ -30,6 +30,7 @@
 #include <QJsonDocument>
 #include <QTextCodec>
 #include <QFileInfo>
+#include <QCloseEvent>
 
 //枚举播放模式
 enum Play_Mode{SINGAL, LISTCIRCLE, SINGALCIRCLE, RANDOM};
@@ -118,9 +119,6 @@ public slots:
     //程序打开时读取播放列表文件
     void slotReadList();
 
-    //程序关闭时（此函数暂时无用）
-    void slotClose();
-
     //把现有播放列表写入列表文件
     void slotWriteList();
 
@@ -134,7 +132,8 @@ public slots:
 
     //处理鼠标点击PlaySlider的信号
     void slotSliderValueClicked(int value);
-
+protected:
+     void closeEvent(QCloseEvent *event);  //窗口关闭之前需要的操作
 
 private:
 
