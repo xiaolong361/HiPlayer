@@ -79,12 +79,12 @@ void HiPlayer::hi_initUi()//初始化界面
     volButton->setGeometry(QRect(333, 193, 31, 31));
     volButton->hi_setVolume(50);
 
-    mminButton = new HiButton( this);
-    mminButton->setObjectName(QStringLiteral("mminButton"));
-    mminButton->setGeometry(QRect(307, 3, 29, 31));
     minButton = new HiButton( this);
     minButton->setObjectName(QStringLiteral("minButton"));
-    minButton->setGeometry(QRect(337, 3, 29, 31));
+    minButton->setGeometry(QRect(307, 3, 29, 31));
+    miniButton = new HiButton( this);
+    miniButton->setObjectName(QStringLiteral("miniButton"));
+    miniButton->setGeometry(QRect(337, 3, 29, 31));
     exitButton = new HiButton( this);
     exitButton->setObjectName(QStringLiteral("exitButton"));
     exitButton->setGeometry(QRect(364, 3, 29, 31));
@@ -103,8 +103,8 @@ void HiPlayer::hi_initUi()//初始化界面
     lyricButton->raise();
     playButton->raise();
     volButton->raise();
-    mminButton->raise();
     minButton->raise();
+    miniButton->raise();
     exitButton->raise();
 
     timeLabel->setText(tr("00:00"));
@@ -153,20 +153,20 @@ void HiPlayer::hi_initUi()//初始化界面
     QIcon icon_min, icon_min_focus;
     icon_min.addFile(QStringLiteral(":/hiplayer/resources/缩小.png"), QSize(), QIcon::Normal, QIcon::Off);
     icon_min_focus.addFile(QStringLiteral(":/hiPlayer/resources/迷你模式按钮2.png"), QSize(), QIcon::Normal, QIcon::Off);
-    minButton->hi_setButtonIcons(icon_min, icon_min);
-    minButton->setIconSize(QSize(18,18));
-    minButton->setFlat(true);
-    minButton->setFocusPolicy(Qt::NoFocus);
-    minButton->setStyleSheet("QPushButton{background-color:rgba(255,255,255,0);border-style:solid;border-width:0px;border-color:rgba(255,255,255,0);}");
+    miniButton->hi_setButtonIcons(icon_min, icon_min);
+    miniButton->setIconSize(QSize(18,18));
+    miniButton->setFlat(true);
+    miniButton->setFocusPolicy(Qt::NoFocus);
+    miniButton->setStyleSheet("QPushButton{background-color:rgba(255,255,255,0);border-style:solid;border-width:0px;border-color:rgba(255,255,255,0);}");
 
     QIcon icon_mmin, icon_mmin_focus;
     icon_mmin.addFile(QStringLiteral(":/hiplayer/resources/最小化.png"), QSize(), QIcon::Normal, QIcon::Off);
     icon_mmin_focus.addFile(QStringLiteral(":/hiPlayer/resources/缩小按钮2.png"), QSize(), QIcon::Normal, QIcon::Off);
-    mminButton->hi_setButtonIcons(icon_mmin, icon_mmin);
-    mminButton->setIconSize(QSize(18,18));
-    mminButton->setFlat(true);
-    mminButton->setFocusPolicy(Qt::NoFocus);
-    mminButton->setStyleSheet("QPushButton{background-color:rgba(255,255,255,0);border-style:solid;border-width:0px;border-color:rgba(255,255,255,0);}");
+    minButton->hi_setButtonIcons(icon_mmin, icon_mmin);
+    minButton->setIconSize(QSize(18,18));
+    minButton->setFlat(true);
+    minButton->setFocusPolicy(Qt::NoFocus);
+    minButton->setStyleSheet("QPushButton{background-color:rgba(255,255,255,0);border-style:solid;border-width:0px;border-color:rgba(255,255,255,0);}");
 
     QIcon icon_logo, icon_logo_focus;
     icon_logo.addFile(QStringLiteral(":/hiplayer/resources/HiPlayer_38_38.png"), QSize(), QIcon::Normal, QIcon::Off);
@@ -319,8 +319,8 @@ void HiPlayer::hi_initConnections()
     connect(nextButton, SIGNAL(clicked()), this, SLOT(slotNextButtonClicked()));
     connect(lastButton, SIGNAL(clicked()), this, SLOT(slotLastButtonClicked()));
     connect(pauseButton, SIGNAL(clicked()), this, SLOT(slotPauseButtonClicked()));
-    connect(minButton, SIGNAL(clicked()), this, SLOT(slotMinButtonClicked()));
-    connect(mminButton, SIGNAL(clicked()), this, SLOT(showMinimized()));
+    connect(miniButton, SIGNAL(clicked()), this, SLOT(slotMinButtonClicked()));
+    connect(minButton, SIGNAL(clicked()), this, SLOT(showMinimized()));
 
     connect(playSlider,SIGNAL(sigValueClicked(int)),this,SLOT(slotSliderValueClicked(int)));
 }
@@ -451,8 +451,8 @@ void HiPlayer::paintEvent(QPaintEvent * event)
     lyricButton->raise();
     playButton->raise();
     volButton->raise();
-    mminButton->raise();
     minButton->raise();
+    miniButton->raise();
     exitButton->raise();
     QWidget::paintEvent(event);
 }
@@ -628,7 +628,7 @@ void HiPlayer::slotUpdateProcessbar(qint64 duration)//更新进度条长度等�
     playSlider->setPageStep(duration / 10);
 }
 
-void HiPlayer::slotUpdateMetaData()//更新显示在界面上的正在播放音乐的信息
+void HiPlayer::slotUpdateMetaData()//TODO:更新显示在界面上的正在播放音乐的信息
 {
     currentIndex = mediaList->currentIndex();//正常情况下,返回值从0开始
     qDebug()<<"slotUpdateMetaData()-->mediaList->currentIndex():"<<currentIndex;
@@ -776,7 +776,35 @@ void HiPlayer::slotLastButtonClicked()//单击播放上一首按钮触发
 void HiPlayer::slotLyricButtonClicked()//单击歌词按键触发
 {
     if(lrcWidget->isHidden())
+    {
         lrcWidget->show();
+        /*获取当前屏幕分辨率->获取当前窗口大小->计算如果居中的话当前窗口的位置->给当前窗口位置赋值方法挺笨的，不过可以实现，代码如下，测试通过。
+         * int height=System.Windows.Forms.SystemInformation.WorkingArea.Height;
+         * int width=System.Windows.Forms.SystemInformation.WorkingArea.Width;
+         *
+         * int formheight=this.Size.Height;
+         * int formwidth=this.Size.Width;intnewformx=width/2-formwidth/2;
+         * int newformy=height/2-formheight/2;
+         * this.SetDesktopLocation(newformx,newformy);*/
+
+        QDesktopWidget* desktopWidget = QApplication::desktop();
+        //获取可用桌面大小
+        //QRect deskRect = desktopWidget->availableGeometry();
+
+        //获取设备屏幕大小
+        QRect screenRect = desktopWidget->screenGeometry();
+
+        int height=screenRect.height();
+        int width=screenRect.width();
+
+        int formheight=lrcWidget->height();
+        int formwidth=lrcWidget->width();
+        int newformx=width/2-formwidth/2;
+        int newformy=height-formheight*1.5;
+        lrcWidget->move(newformx,newformy);
+
+    }
+
     else lrcWidget->hide();
 }
 
@@ -965,7 +993,7 @@ void HiPlayer::slotWriteList()//将playList中的内容写入本地数据文件
     }
 }
 
-void HiPlayer::hi_openMusic(const QString& filePath)//TODO:通过命令行打开指定音乐文件
+void HiPlayer::hi_openMusic(const QString& filePath)//TODO:通过命令行打开指定音乐文件,可以不使用
 {
     QStringList name;
     name.append(filePath);
@@ -1051,13 +1079,6 @@ void HiPlayer::hi_fetchNetData()   //根据不同的标志获取不同的网络�
     QString query = QUrl::toPercentEncoding(songName + " " + songArtist);
     switch (receiveState)
     {
-//    case RECEIVE_INFO:
-//        networker->get(
-//                    QString("http://tingapi.ting.baidu.com/v1/restserver/ting?from=webapp_music&method=baidu.ting.search.catalogSug&format=json&callback=&query=" +
-//                            query +
-//                            "&_=1413017198449")
-//                    );
-//        break;
     case RECEIVE_INFO:
         networker->get(
                     QString("http://tingapi.ting.baidu.com/v1/restserver/ting?format=json&calback=&from=webapp_music&method=baidu.ting.search.catalogSug&query=" +
@@ -1072,7 +1093,8 @@ void HiPlayer::hi_fetchNetData()   //根据不同的标志获取不同的网络�
         networker->get(picUrl);
         break;
     case RECEIVE_LRC:
-        lrcUrl = QString("http://qukufile2.qianqian.com") + lrcUrl;
+        //lrcUrl = QString("http://qukufile2.qianqian.com") + lrcUrl;
+        qDebug()<<"lrcUrl:"<<lrcUrl;
         networker->get(lrcUrl);
         break;
     default:
@@ -1288,7 +1310,7 @@ void HiPlayer::closeEvent(QCloseEvent *) //窗口关闭之前需要的操作
 /*
 //    SAFE_RELEASE(lrcWidget);
 
-//    SAFE_RELEASE(minButton);
+//    SAFE_RELEASE(miniButton);
 //    SAFE_RELEASE(exitButton);
 //    SAFE_RELEASE(addButton);
 //    SAFE_RELEASE(lyricButton);
@@ -1297,7 +1319,7 @@ void HiPlayer::closeEvent(QCloseEvent *) //窗口关闭之前需要的操作
 //    SAFE_RELEASE(playButton);
 //    SAFE_RELEASE(pauseButton);
 //    SAFE_RELEASE(modeButton);
-//    SAFE_RELEASE(mminButton);
+//    SAFE_RELEASE(minButton);
 //    SAFE_RELEASE(logoButton);
 
 //    SAFE_RELEASE(nameLabel);

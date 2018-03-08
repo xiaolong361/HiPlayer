@@ -199,7 +199,7 @@ private:
     QString playingFile;
     QString dirPath;
 
-    HiButton *minButton;
+    HiButton *miniButton;
     HiButton *exitButton;
     HiButton *addButton;
     HiButton *lyricButton;
@@ -208,7 +208,7 @@ private:
     HiButton *playButton;
     HiButton *pauseButton;
     HiButton *modeButton;
-    HiButton *mminButton;
+    HiButton *minButton;
     HiButton *logoButton;
 
     HiLabel *nameLabel;
