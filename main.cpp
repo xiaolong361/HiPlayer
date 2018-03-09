@@ -1,31 +1,35 @@
-//#include "widget.h"
-//#include "aboutDialog.h"
-//#include "hiLrcWidget.h"
-//#include <QApplication>
-//#include <QMessageBox>
-//#include "singleApp.h"
+#include "widget.h"
+#include "aboutDialog.h"
+#include "hiLrcWidget.h"
+#include <QApplication>
+#include <QMessageBox>
+#include "singleApp.h"
+#include "miniWindow.h"
+#include "hiplayer.h"
 
-////int main(int argc, char *argv[])
-////{
-////    QApplication a(argc, argv);
+int main(int argc, char *argv[])
+{
+    QApplication a(argc, argv);
 
-//////    HiLrcWidget * lrc=new HiLrcWidget;
-//////    QString str="问君此去几时还,来时莫徘徊";
-//////    lrc->hi_setLyricText(str);
-//////    //lrc.hi_startLrcMask(1000);
-//////    lrc->show();
+//    HiLrcWidget * lrc=new HiLrcWidget;
+//    QString str="问君此去几时还,来时莫徘徊";
+//    lrc->hi_setLyricText(str);
+//    //lrc.hi_startLrcMask(1000);
+//    lrc->show();
 
-////    Widget w;
-////    w.show();
-////    //AboutDialog about;
-////    //about.show();
-//////    QDialog d;
-//////    d.setWindowTitle("hello");
-//////    d.setWindowFlags(Qt::FramelessWindowHint);
-//////    d.show();
+    qDebug()<<"hello";
+    HiPlayer hi;
+    //MiniWindow w(&hi);
+    hi.show();
+    //AboutDialog about;
+    //about.show();
+//    QDialog d;
+//    d.setWindowTitle("hello");
+//    d.setWindowFlags(Qt::FramelessWindowHint);
+//    d.show();
 
-////    return a.exec();
-////}
+    return a.exec();
+}
 
 
 

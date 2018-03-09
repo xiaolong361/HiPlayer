@@ -3,18 +3,12 @@
 HiButton::HiButton(QWidget *parent)
     : QPushButton(parent)
 {
-    //setDown(false);
-
     //设置图标无焦点
     setFocusPolicy(Qt::NoFocus);
-
-    //QWidgetResizeHandler *movewin = new QWidgetResizeHandler(this);
-    //movewin->setMovingEnabled(true);
 }
 
 HiButton::~HiButton()
 {
-
 }
 
 void HiButton::enterEvent(QEvent * event)
@@ -39,7 +33,7 @@ void HiButton::mousePressEvent(QMouseEvent *event)
 
 void HiButton::mouseReleaseEvent(QMouseEvent *event)
 {
-    if( isEnabled() && focusIcon.isNull() )
+    if( isEnabled() && !focusIcon.isNull() )
         setIcon(focusIcon);
     QPushButton::mouseReleaseEvent(event);
 }

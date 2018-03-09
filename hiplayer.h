@@ -31,6 +31,7 @@
 #include <QTextCodec>
 #include <QFileInfo>
 #include <QCloseEvent>
+#include <qDebug>
 
 //枚举播放模式
 enum Play_Mode{SINGAL, LISTCIRCLE, SINGALCIRCLE, RANDOM};
@@ -56,8 +57,6 @@ public:
     void hi_openMusic(const QString& filePath);
 
 public slots:
-    //从mini窗口返回主窗口
-    void slotReturnToMainwidget();
 
     //接受mini窗口传来的参数设置播放模式
     void slotSetModeFromMini(int mode);
@@ -125,8 +124,6 @@ public slots:
     //设置当前播放位置
     void slotSetPlayPosition(int pos);
 
-    //void slotPlayValueChanged(int);
-
     //获取当前播放位置
     int slotGetPlayPosition();
 
@@ -136,7 +133,6 @@ protected:
      void closeEvent(QCloseEvent *event);  //窗口关闭之前需要的操作
 
 private:
-
     //绘制窗体(也用于窗口位置拖动)
     void paintEvent(QPaintEvent *event);
 
@@ -148,7 +144,6 @@ private:
     void mousePressEvent(QMouseEvent *event);
     void mouseMoveEvent(QMouseEvent *event);
     void mouseReleaseEvent(QMouseEvent *event);
-
 
     //初始化主界面
     void hi_initUi();
@@ -191,7 +186,7 @@ private:
 
     //从磁盘中读取专辑图片
     bool hi_getPicFromFile();
-
+private:
     HiLrcWidget *lrcWidget;
     QMap<qint64, QString> lrcMap;
 

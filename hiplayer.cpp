@@ -332,8 +332,7 @@ void HiPlayer::hi_initWindows()
     aboutForm->hide();
     lrcWidget = new HiLrcWidget(this);
 
-    miniForm = new MiniWindow();
-    miniForm->hi_setParent(this);
+    miniForm = new MiniWindow(this);
     miniForm->hide();
 }
 
@@ -721,7 +720,8 @@ void HiPlayer::slotSliderValueClicked(int value)//单击播放进度条触发
 
 void HiPlayer::slotPlayButtonClicked()//单击播放按键触发
 {
-    if(mediaPlayer->state() == QMediaPlayer::PausedState){
+    if(mediaPlayer->state() == QMediaPlayer::PausedState)
+    {
         mediaPlayer->play();
     }
 }
@@ -820,7 +820,7 @@ void HiPlayer::slotModeButtonClicked()//单击播放模式按键触发
 
 void HiPlayer::slotMinButtonClicked()//单击缩小按键触发
 {
-    miniForm->show();//TODO:完善miniForm
+    miniForm->show();
     miniForm->hi_initPlayMode(volButton->hi_getVolume());
     this->hide();
 }
@@ -873,10 +873,6 @@ void HiPlayer::slotSetModeFromMini(int m)//从Mini窗口获取播放模式
     }
 }
 
-void HiPlayer::slotReturnToMainwidget()//从Mini窗口返回主窗口,TODO:该函数未使用
-{
-    this->show();
-}
 
 void HiPlayer::slotSetVolFromMini(int a)//从Mini窗口获取音量
 {

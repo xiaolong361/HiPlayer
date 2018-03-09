@@ -11,16 +11,13 @@ class MiniWindow : public QWidget
 {
     Q_OBJECT
 public:
-    MiniWindow(QWidget *parent = 0);
+    MiniWindow(HiPlayer * hiplayer,QWidget *parent = 0);
     ~MiniWindow();
 
-    void hi_setParent(HiPlayer *parent);
     void hi_initPlayMode(int vol);
 
-signals:
-    void volumeChanged(int);
-private slots:
 
+private slots:
     void slotBackToMain();
 
     void slotNextMusic();
@@ -39,32 +36,42 @@ private slots:
 
     void slotUpdateVol(int);
 private:
-
     void paintEvent(QPaintEvent *event);
     void contextMenuEvent(QContextMenuEvent *event);
 
     void hi_initMenuActions();
 
-    HiButton *playButton;
-    HiButton *pauseButton;
+    //用于窗口位置拖动
+    void mousePressEvent(QMouseEvent *event);
+    void mouseMoveEvent(QMouseEvent *event);
+    void mouseReleaseEvent(QMouseEvent *event);
+
+    HiButton *miniPlayButton;
+    HiButton *miniPauseButton;
     HiButton *miniNextButton;
+    HiButton *miniLastButton;
+    HiButton *miniMaxButton;
 
     QMenu *contextMenu;
     QActionGroup *modeGroup;
-
     QAction *mode0;
     QAction *mode1;
     QAction *mode2;
     QAction *mode3;
     QAction *mainForm;
-    QAction *exit;
     QAction *next;
     QAction *last;
     QAction *lyric;
+    QAction *exit;
+
     QWidgetAction *setVolumn;
     QSlider *volSlider;
 
-    HiPlayer *parentForm;
+    HiPlayer *mainWindow;
+
+    //用于窗口位置拖动
+    bool        m_Moveing;
+    QPoint      m_MovePosition;
 
 };
 #endif // MINIWINDOW_H

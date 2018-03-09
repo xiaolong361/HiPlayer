@@ -27,5 +27,15 @@
         <file>resources/最小化.png</file>
         <file>resources/lrc_background.png</file>
         <file>resources/album.png</file>
+        <file>resources/mini.png</file>
+        <file>resources/播放按钮mini.png</file>
+        <file>resources/前进按钮mini.png</file>
+        <file>resources/暂停按钮mini.png</file>
+        <file>resources/mini_back.png</file>
+        <file>resources/play_mini.png</file>
+        <file>resources/pause_mini.png</file>
+        <file>resources/max_mini.png</file>
+        <file>resources/next_mini.png</file>
+        <file>resources/last_mini.png</file>
     </qresource>
 </RCC>
