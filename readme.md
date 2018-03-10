@@ -16,4 +16,5 @@ About界面：
 
 
 HiPlayer播放器基于Qt技术开发，作者开发环境为Qt5.8.0，MinGW5.3.0（32-bit），欢迎大家下载、讨论。      
-源代码下载地址：[HiPlayer播放器源代码Github下载地址](https://github.com/xiaolong361/HiPlayer)
+源代码下载地址：[HiPlayer播放器源代码Github下载地址](https://github.com/xiaolong361/HiPlayer)    
+可执行程序下载地址（绿色免安装）：[HiPlayer播放器软件百度网盘下载地址](https://pan.baidu.com/s/17VScymfjDAfltKyH3KTxvA)  
