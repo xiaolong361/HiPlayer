@@ -9,12 +9,9 @@ HiLrcWidget::HiLrcWidget(QWidget *parent)
     setWindowFlags(Qt::Window | Qt::FramelessWindowHint | Qt::Tool | Qt::WindowStaysOnTopHint);
     //去除窗体原背景(背景透明)
     setAttribute(Qt::WA_TranslucentBackground);
-    //窗口拖动
-    //QWidgetResizeHandler *movewin = new QWidgetResizeHandler(this);
-    //movewin->setMovingEnabled(true);
 
     //固定大小
-    this->setFixedSize(800, 80);
+    this->setFixedSize(800, 60);
 
     lrcLabel =new LrcLabel(this);
     lrcLabel->setGeometry(QRect(0, 6, 800, 60));
@@ -28,7 +25,7 @@ HiLrcWidget::~HiLrcWidget()
     }
 }
 
-//开始歌词遮罩,以intervaltime为间隔时间
+//开始歌词遮罩,以intervaltime(ms)为间隔时间
 void HiLrcWidget::hi_startLrcMask(qint64 intervaltime)
 {
     lrcLabel->hi_startLrcMask(intervaltime);
@@ -45,13 +42,9 @@ QString HiLrcWidget::text()const
     return lrcLabel->text();
 }
 
-void HiLrcWidget::setText(QString t)
+void HiLrcWidget::hi_setLyricText(QString t)//设置歌词文本(无滚动效果)
 {
     lrcLabel->setText(t);
-}
-void HiLrcWidget::hi_setLyricText(QString & t)
-{
-    lrcLabel->hi_setText(t,500);
 }
 
 void HiLrcWidget::paintEvent(QPaintEvent * event)
@@ -61,6 +54,12 @@ void HiLrcWidget::paintEvent(QPaintEvent * event)
     lrcLabel->raise();
     QWidget::paintEvent(event);
 }
+
+void HiLrcWidget::enterEvent(QEvent *)
+{
+    setCursor(Qt::PointingHandCursor);
+}
+
 void HiLrcWidget::mousePressEvent(QMouseEvent *event)
 {
     m_Moveing=true;
@@ -69,7 +68,6 @@ void HiLrcWidget::mousePressEvent(QMouseEvent *event)
     //pos() this->pos()鼠标按下时，窗口相对于父窗口的位置
     m_MovePosition=event->globalPos() - pos();
     event->accept();
-    //return QWidget::mousePressEvent(event);
 }
 
 void HiLrcWidget::mouseMoveEvent(QMouseEvent *event)
@@ -83,7 +81,6 @@ void HiLrcWidget::mouseMoveEvent(QMouseEvent *event)
         move(event->globalPos()-m_MovePosition);//相对于桌面的位置.
         m_MovePosition = event->globalPos() - pos();
     }
-    //return QWidget::mouseMoveEvent(event);
     event->accept();
 }
 

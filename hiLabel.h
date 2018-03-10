@@ -3,6 +3,7 @@
 #include <QLabel>
 #include <QTimer>
 
+//实现带有文字滚动功能的Label
 class HiLabel : public QLabel
 {
     Q_OBJECT
@@ -11,7 +12,7 @@ public:
     ~HiLabel();
 
     //设置文本:
-    //如果ms为0则文字不滚动(默认不滚动);
+    //如果ms为0则文字不滚动(默认不滚动);若不为0则一定按时间间隔滚动;
     //如果调用setText()文字将不滚动(与使用QLabel相同);
     void hi_setText(const QString & context=0, const int & ms=0);
 
@@ -23,9 +24,6 @@ private slots:
     void slotTimeout();
 
 private:
-
-    //void hi_init(int ms = 0);
-
     QString m_context;
     QTimer *m_timer;
 

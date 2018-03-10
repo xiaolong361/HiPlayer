@@ -18,25 +18,23 @@ public:
 
     QString text()const;
 
-    void setText(QString t);
+    //void setText(QString t);
 
-    void hi_setLyricText(QString & t);
-
-
-
+    void hi_setLyricText(QString t);
 private:
+    void enterEvent(QEvent *);
     void paintEvent(QPaintEvent * event);
     //用于窗口位置拖动
     void mousePressEvent(QMouseEvent *event);
     void mouseMoveEvent(QMouseEvent *event);
     void mouseReleaseEvent(QMouseEvent *event);
-
-
+private:
     LrcLabel * lrcLabel;
 
     //用于窗口位置拖动
     bool        m_Moveing;
     QPoint      m_MovePosition;
+
 };
 
 #endif // HILRCWIDGET_H

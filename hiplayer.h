@@ -129,10 +129,13 @@ public slots:
 
     //处理鼠标点击PlaySlider的信号
     void slotSliderValueClicked(int value);
+
+    //实现只允许唯一程序执行
+    void slotRecvMessage(QString message);
 protected:
      void closeEvent(QCloseEvent *event);  //窗口关闭之前需要的操作
-
 private:
+
     //绘制窗体(也用于窗口位置拖动)
     void paintEvent(QPaintEvent *event);
 
@@ -186,6 +189,8 @@ private:
 
     //从磁盘中读取专辑图片
     bool hi_getPicFromFile();
+
+
 private:
     HiLrcWidget *lrcWidget;
     QMap<qint64, QString> lrcMap;

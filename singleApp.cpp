@@ -38,7 +38,7 @@ void SingleApp::receiveMessage()
     QString message = QString::fromUtf8(byteArray.constData());
     emit sigMsgAvailable(message);
     localSocket->disconnectFromServer();
-    qDebug()<<"receive message:"<<message;
+    //qDebug()<<"receive message:"<<message;
 }
 
 // public functions.

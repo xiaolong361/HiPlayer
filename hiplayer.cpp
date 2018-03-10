@@ -41,6 +41,7 @@ void HiPlayer::hi_initUi()//初始化界面
                               "QSlider::handle:horizontal{background:white;width:10px;border:#51b5fb 10px;border-radius:5px;margin:-3px 0px -3px 0px;}");
     playSlider->setGeometry(QRect(40, 150, 290, 20));
     playSlider->setOrientation(Qt::Horizontal);
+    playSlider->setEnabled(false);
 
     timeLabel = new QLabel( this);
     timeLabel->setObjectName(QStringLiteral("timeLabel"));
@@ -612,7 +613,7 @@ void HiPlayer::slotUpdatePosition(qint64 position)//更新歌词、时间显示
         QString tmp = lrcWidget->text();
         if(current_lrc != tmp)
         {
-            lrcWidget->setText(current_lrc);
+            lrcWidget->hi_setLyricText(current_lrc);
             tmp = lrcWidget->text();
             qint64 interval_time = later - previous;
             lrcWidget->hi_startLrcMask(interval_time);
@@ -627,10 +628,10 @@ void HiPlayer::slotUpdateProcessbar(qint64 duration)//更新进度条长度等�
     playSlider->setPageStep(duration / 10);
 }
 
-void HiPlayer::slotUpdateMetaData()//TODO:更新显示在界面上的正在播放音乐的信息
+void HiPlayer::slotUpdateMetaData()//更新显示在界面上的正在播放音乐的信息
 {
     currentIndex = mediaList->currentIndex();//正常情况下,返回值从0开始
-    qDebug()<<"slotUpdateMetaData()-->mediaList->currentIndex():"<<currentIndex;
+    //qDebug()<<"slotUpdateMetaData()-->mediaList->currentIndex():"<<currentIndex;
 
     //qDebug()<<"slotUpdateMetaData()-->playingFile="<<playingFile;
 
@@ -652,7 +653,7 @@ void HiPlayer::slotUpdateMetaData()//TODO:更新显示在界面上的正在播�
     playingFile = playList.at(currentIndex);
     songName = mediaPlayer->metaData(QMediaMetaData::Title).toString();//通过歌曲文件获取歌名
     if (songName.size() > 28)
-        nameLabel->hi_setText(songName, TEXT_SPEED);
+        nameLabel->hi_setText(songName, TEXT_SPEED);//label中的文字滚动出现
     else{
         nameLabel->hi_stop();
         nameLabel->setText(songName);
@@ -662,7 +663,7 @@ void HiPlayer::slotUpdateMetaData()//TODO:更新显示在界面上的正在播�
     musicianLabel->setText(songArtist);
     albumLabel->setText(mediaPlayer->metaData(QMediaMetaData::AlbumTitle).toString());
 
-    lrcWidget->setText(songName);
+    lrcWidget->hi_setLyricText(songName);
 
     if (!songName.isEmpty())
     {//若歌曲名不为空,则搜索图片和歌词
@@ -673,9 +674,6 @@ void HiPlayer::slotUpdateMetaData()//TODO:更新显示在界面上的正在播�
             receiveState = RECEIVE_INFO;
             hi_fetchNetData();//获取网络数据
         }
-        else{
-            qDebug()<<"已有歌词专辑图片和歌词";
-        }
     }
 
     if(nameLabel->text() == "")
@@ -684,21 +682,12 @@ void HiPlayer::slotUpdateMetaData()//TODO:更新显示在界面上的正在播�
         musicianLabel->setText(QString::fromUtf8("未知音乐家"));
     if(albumLabel->text() == "")
         albumLabel->setText(QString::fromUtf8("未知专辑"));
-/*
-    //貌似永远不会执行
-    if(playlistTable->rowCount() == 0)
-    {
-        timeLabel->setText(tr("00:00"));
-        nameLabel->setText(tr("Name " ));
-        musicianLabel->setText(tr("Musician" ));
-        albumLabel->setText(tr("Album" ));
-    }
-    */
 }
 
 void HiPlayer::slotUpdateState(QMediaPlayer::State state)//更新播放状态
 {
     if (state == QMediaPlayer::PlayingState) {
+        playSlider->setEnabled(true);
         playButton->setVisible(false);
         pauseButton->setVisible(true);
     } else {
@@ -709,11 +698,15 @@ void HiPlayer::slotUpdateState(QMediaPlayer::State state)//更新播放状态
         playingFile = playList.at(mediaList->currentIndex());
         slotResolveLrc(playingFile);
     }
+    else
+    {
+        playSlider->setEnabled(false);
+    }
 }
 
 void HiPlayer::slotSliderValueClicked(int value)//单击播放进度条触发
 {
-    qDebug()<<"slotSliderValueClicked(int)";
+    //qDebug()<<"slotSliderValueClicked(int)";
     slotSetPlayPosition(value);
     slotSetPosition();
 }
@@ -800,7 +793,7 @@ void HiPlayer::slotLyricButtonClicked()//单击歌词按键触发
         int formheight=lrcWidget->height();
         int formwidth=lrcWidget->width();
         int newformx=width/2-formwidth/2;
-        int newformy=height-formheight*1.5;
+        int newformy=height-formheight*2;
         lrcWidget->move(newformx,newformy);
 
     }
@@ -943,7 +936,7 @@ bool HiPlayer::slotResolveLrc(const QString & source_file_name)//根据歌曲文
     // 如果lrc_map为空,歌词显示歌曲名
     if (lrcMap.isEmpty())
     {
-        lrcWidget->setText(mediaPlayer->metaData(QMediaMetaData::Title).toString());
+        lrcWidget->hi_setLyricText(mediaPlayer->metaData(QMediaMetaData::Title).toString());
         return false;
     }
 
@@ -1388,4 +1381,12 @@ void HiPlayer::mouseMoveEvent(QMouseEvent *event)
 void HiPlayer::mouseReleaseEvent(QMouseEvent *)
 {
     m_Moveing=false;
+}
+
+void HiPlayer::slotRecvMessage(QString message)
+{
+    qDebug()<<"Tips:"<<message;
+    this->showNormal();
+    this->raise();
+    this->activateWindow();
 }

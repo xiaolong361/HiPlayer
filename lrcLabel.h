@@ -4,6 +4,7 @@
 #include <QtWidgets>
 #include "hiLabel.h"
 
+//带有歌词遮罩的label
 class LrcLabel : public HiLabel
 {
 
@@ -24,10 +25,6 @@ protected:
 
     //绘制窗体
     void paintEvent(QPaintEvent *);
-
-    //鼠标事件
-    //void mousePressEvent(QMouseEvent *event);
-    //void mouseMoveEvent(QMouseEvent *event);
 
     //菜单事件
     void contextMenuEvent(QContextMenuEvent *event);

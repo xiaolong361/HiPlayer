@@ -45,7 +45,7 @@ void Widget::slotVolChange(int vol)
 
 void Widget::slotRecvMessage(QString message)
 {
-    qDebug()<<"slotRecvMessage:"<<message;
+    qDebug()<<"Tips:"<<message;
     this->showNormal();
     this->raise();
     this->activateWindow();

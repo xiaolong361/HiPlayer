@@ -11,13 +11,13 @@ HiButton::~HiButton()
 {
 }
 
-void HiButton::enterEvent(QEvent * event)
+void HiButton::enterEvent(QEvent *)
 {
     if( isEnabled() && !focusIcon.isNull() )
         setIcon(focusIcon);
 }
 
-void HiButton::leaveEvent(QEvent *event)
+void HiButton::leaveEvent(QEvent *)
 {
     if( isEnabled() )
         setIcon(normalIcon);
