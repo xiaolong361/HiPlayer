@@ -17,9 +17,6 @@
         <file>resources/Play_60_60.png</file>
         <file>resources/Play_100_100.png</file>
         <file>resources/Volumn_40_40.png</file>
-        <file>resources/关闭按钮.png</file>
-        <file>resources/缩小按钮.png</file>
-        <file>resources/最小化按钮.png</file>
         <file>resources/background.png</file>
         <file>resources/default_album.jpg</file>
         <file>resources/关闭.png</file>
@@ -27,10 +24,7 @@
         <file>resources/最小化.png</file>
         <file>resources/lrc_background.png</file>
         <file>resources/album.png</file>
-        <file>resources/mini.png</file>
         <file>resources/播放按钮mini.png</file>
-        <file>resources/前进按钮mini.png</file>
-        <file>resources/暂停按钮mini.png</file>
         <file>resources/mini_back.png</file>
         <file>resources/play_mini.png</file>
         <file>resources/pause_mini.png</file>

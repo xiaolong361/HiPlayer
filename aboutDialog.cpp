@@ -7,6 +7,7 @@
 #include <QPixmap>
 #include <QPainter>
 #include <QApplication>
+
 AboutDialog::AboutDialog(QWidget *parent)
     :QDialog(parent)
     ,m_Moveing(false)
@@ -30,12 +31,6 @@ AboutDialog::AboutDialog(QWidget *parent)
     //去除标题栏,需要自定义窗口的拖动
     this->setWindowFlags(Qt::FramelessWindowHint);
 
-    //设置窗体背景色
-    /*QColor background(217, 227, 236);
-    QPalette win_palette(this->palette());
-    win_palette.setColor(QPalette::Background, background);
-    this->setPalette(win_palette);*/
-
     //设置窗体背景透明，配合paintEvent设置不规则背景图
     setAttribute(Qt::WA_TranslucentBackground);
 
@@ -56,9 +51,8 @@ void AboutDialog::paintEvent(QPaintEvent * )
 }
 
 AboutDialog::~AboutDialog()
-{
+{}
 
-}
 void AboutDialog::mousePressEvent(QMouseEvent *event)
 {
     m_Moveing=true;

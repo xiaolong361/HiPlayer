@@ -8,7 +8,7 @@ QT       += core gui network multimedia
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET = HiPlayer_test
+TARGET = HiPlayer
 TEMPLATE = app
 
 #RC_ICONS = logo.ico
@@ -27,7 +27,6 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 
 SOURCES += main.cpp\
-        widget.cpp \
     hiButton.cpp \
     aboutDialog.cpp \
     hiLabel.cpp \
@@ -35,14 +34,13 @@ SOURCES += main.cpp\
     hiLrcWidget.cpp \
     hiVolBotton.cpp \
     singleApp.cpp \
-    main1.cpp \
     nofocusdelegate.cpp \
     network.cpp \
     hiplayer.cpp \
     miniWindow.cpp \
     playslider.cpp
 
-HEADERS  += widget.h \
+HEADERS  += \
     hiButton.h \
     aboutDialog.h \
     hiLabel.h \

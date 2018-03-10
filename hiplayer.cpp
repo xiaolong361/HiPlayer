@@ -245,8 +245,6 @@ void HiPlayer::hi_initUi()//初始化界面
 
     if (playlistTable->columnCount() < 1)//列数默认为0
         playlistTable->setColumnCount(2);
-    //QTableWidgetItem * __qtablewidgetitem = new QTableWidgetItem();
-    //playlistTable->setHorizontalHeaderItem(0, __qtablewidgetitem);
 
     //设置列宽
     playlistTable->setColumnWidth(0,300);
@@ -557,16 +555,11 @@ void HiPlayer::slotPlaylistMenuRequested(const QPoint &pos)//请求右键菜单
 void HiPlayer::slotSetPosition()//更新播放进度
 {
     int pos = slotGetPlayPosition();
-    //int state = mediaPlayer->state();
-    /*	if (qAbs(mediaPlayer->position() - pos) > 99)*/
     mediaPlayer->setPosition(pos);
     mediaPlayer->play();
     playButton->setVisible(false);
     pauseButton->setVisible(true);
-    // 	if (state == QMediaPlayer::PlayingState)
-    // 		mediaPlayer->play();
-    // 	else
-    // 		mediaPlayer->pause();
+
 }
 
 void HiPlayer::slotUpdatePosition(qint64 position)//更新歌词、时间显示
@@ -578,10 +571,8 @@ void HiPlayer::slotUpdatePosition(qint64 position)//更新歌词、时间显示
     //获取该音频文件的总时长参数，单位为毫秒
     qint64 total_time_value = mediaPlayer->duration();
 
-    //这3个参数分别代表了时，分，秒；60000毫秒为1分钟，所以分钟第二个参数是先除6000,第3个参数是直接除1s
-    //QTime total_time(0, (total_time_value/60000)%60, (total_time_value/1000)%60);
-
     //传进来的time参数代表了当前的时间
+    //这3个参数分别代表了时，分，秒；60000毫秒为1分钟，所以分钟第二个参数是先除6000,第3个参数是直接除1s
     QTime current_time(0, (position/60000)%60, (position/1000)%60);
     timeLabel->setText(current_time.toString(tr("mm:ss")));
 
@@ -631,10 +622,6 @@ void HiPlayer::slotUpdateProcessbar(qint64 duration)//更新进度条长度等�
 void HiPlayer::slotUpdateMetaData()//更新显示在界面上的正在播放音乐的信息
 {
     currentIndex = mediaList->currentIndex();//正常情况下,返回值从0开始
-    //qDebug()<<"slotUpdateMetaData()-->mediaList->currentIndex():"<<currentIndex;
-
-    //qDebug()<<"slotUpdateMetaData()-->playingFile="<<playingFile;
-
     songName.clear();
     songArtist.clear();
     lrcMap.clear();
@@ -706,7 +693,6 @@ void HiPlayer::slotUpdateState(QMediaPlayer::State state)//更新播放状态
 
 void HiPlayer::slotSliderValueClicked(int value)//单击播放进度条触发
 {
-    //qDebug()<<"slotSliderValueClicked(int)";
     slotSetPlayPosition(value);
     slotSetPosition();
 }
@@ -731,12 +717,6 @@ void HiPlayer::slotNextButtonClicked()//点击播放下一首按钮触发
 {
     mediaList->setPlaybackMode(QMediaPlaylist::Loop);
 
-    //TODO:注释掉下列代码之后不影响功能
-    //    if (mediaList->currentIndex() != mediaList->nextIndex())
-    //        mediaList->setCurrentIndex(mediaList->nextIndex());
-    //    else if (mediaList->currentIndex() != mediaList->previousIndex())
-    //        mediaList->setCurrentIndex(mediaList->previousIndex());
-
     mediaList->setCurrentIndex(mediaList->nextIndex());
     if (!mediaPlayer->isAudioAvailable()){
         playlistTable->item(mediaList->currentIndex(), 1)->setText(QString::fromUtf8("失效"));
@@ -749,12 +729,6 @@ void HiPlayer::slotNextButtonClicked()//点击播放下一首按钮触发
 void HiPlayer::slotLastButtonClicked()//单击播放上一首按钮触发
 {
     mediaList->setPlaybackMode(QMediaPlaylist::Loop);
-    //TODO:注释掉下列代码之后不影响功能
-    //qDebug()<<"mediaList->currentIndex()="<<mediaList->currentIndex();
-    //    if(mediaList->currentIndex() != mediaList->previousIndex())
-    //        mediaList->setCurrentIndex(mediaList->previousIndex());
-    //    else
-    //        mediaList->setCurrentIndex(mediaList->nextIndex());
 
     mediaList->setCurrentIndex(mediaList->previousIndex());
     if (!mediaPlayer->isAudioAvailable()){
@@ -771,18 +745,7 @@ void HiPlayer::slotLyricButtonClicked()//单击歌词按键触发
     if(lrcWidget->isHidden())
     {
         lrcWidget->show();
-        /*获取当前屏幕分辨率->获取当前窗口大小->计算如果居中的话当前窗口的位置->给当前窗口位置赋值方法挺笨的，不过可以实现，代码如下，测试通过。
-         * int height=System.Windows.Forms.SystemInformation.WorkingArea.Height;
-         * int width=System.Windows.Forms.SystemInformation.WorkingArea.Width;
-         *
-         * int formheight=this.Size.Height;
-         * int formwidth=this.Size.Width;intnewformx=width/2-formwidth/2;
-         * int newformy=height/2-formheight/2;
-         * this.SetDesktopLocation(newformx,newformy);*/
-
         QDesktopWidget* desktopWidget = QApplication::desktop();
-        //获取可用桌面大小
-        //QRect deskRect = desktopWidget->availableGeometry();
 
         //获取设备屏幕大小
         QRect screenRect = desktopWidget->screenGeometry();
@@ -836,7 +799,6 @@ void HiPlayer::slotSetPlayMode()//设置播放模式
         playMode = Play_Mode::RANDOM;
         mediaList->setPlaybackMode(QMediaPlaylist::Random);
     }
-    //qDebug()<<"playMode="<<playMode;
 }
 
 void HiPlayer::slotSetModeFromMini(int m)//从Mini窗口获取播放模式
@@ -1054,10 +1016,6 @@ void HiPlayer::hi_initNetwork()//初始化网络模块
         default:
             break;
         }
-
-        //buggy there!!
-        //这里应该删除上次的reply
-        //reply->deleteLater();
         reply->abort();
     });
 }
@@ -1082,7 +1040,6 @@ void HiPlayer::hi_fetchNetData()   //根据不同的标志获取不同的网络�
         networker->get(picUrl);
         break;
     case RECEIVE_LRC:
-        //lrcUrl = QString("http://qukufile2.qianqian.com") + lrcUrl;
         qDebug()<<"lrcUrl:"<<lrcUrl;
         networker->get(lrcUrl);
         break;
@@ -1249,24 +1206,6 @@ void HiPlayer::hi_recvPic(QNetworkReply *reply)//接收专辑图片
         QString temp = playingFile;
         QString fileName = temp.remove(temp.right(3)) + "jpg";
         currentPicture.save(fileName);//将图片保存到文件中
-
-//        QFile *file = new QFile(fileName);
-//        if (!file->open(QIODevice::WriteOnly)) {
-//            delete file;
-//            file = 0;
-//            return;
-//        }
-
-//this can, for example, be used to save an image directly into a QByteArray:
-//        QImage image;
-//        QBuffer buffer(&data);
-//        buffer.open(QIODevice::WriteOnly);
-//        image.save(&buffer, "JPG");//把图片以流方式写入data中
-
-//        file->write(data);
-//        file->close();
-//        delete file;
-//        file = 0;
     }
     reply->deleteLater();
 }
@@ -1296,49 +1235,6 @@ bool HiPlayer::hi_getPicFromFile() //从磁盘中读取专辑图片
 void HiPlayer::closeEvent(QCloseEvent *) //窗口关闭之前需要的操作
 {
     slotWriteList();
-/*
-//    SAFE_RELEASE(lrcWidget);
-
-//    SAFE_RELEASE(miniButton);
-//    SAFE_RELEASE(exitButton);
-//    SAFE_RELEASE(addButton);
-//    SAFE_RELEASE(lyricButton);
-//    SAFE_RELEASE(lastButton);
-//    SAFE_RELEASE(nextButton);
-//    SAFE_RELEASE(playButton);
-//    SAFE_RELEASE(pauseButton);
-//    SAFE_RELEASE(modeButton);
-//    SAFE_RELEASE(minButton);
-//    SAFE_RELEASE(logoButton);
-
-//    SAFE_RELEASE(nameLabel);
-//    SAFE_RELEASE(musicianLabel);
-//    SAFE_RELEASE(albumLabel);
-//    SAFE_RELEASE(timeLabel);
-//    SAFE_RELEASE(picLabel);
-
-//    SAFE_RELEASE(playSlider);
-
-//    SAFE_RELEASE(playlistTable);
-//    SAFE_RELEASE(mediaPlayer);
-//    SAFE_RELEASE(mediaList);
-//    SAFE_RELEASE(contextMenuLess);
-//    SAFE_RELEASE(contextMenuMore);
-
-//    SAFE_RELEASE(modeSingal);
-//    SAFE_RELEASE(modeListCircle);
-//    SAFE_RELEASE(modeSingalCircle);
-//    SAFE_RELEASE(modeRandom);
-//    SAFE_RELEASE(addMusic);
-//    SAFE_RELEASE(addFileDiv);
-//    SAFE_RELEASE(removeCurr);
-//    SAFE_RELEASE(removeAll);
-//    SAFE_RELEASE(modeActionGroup);
-
-//    SAFE_RELEASE(volButton);
-//    SAFE_RELEASE(miniForm);
-//    SAFE_RELEASE(aboutForm);
-*/
 }
 
 

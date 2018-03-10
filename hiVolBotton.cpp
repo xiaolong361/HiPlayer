@@ -4,9 +4,6 @@
 HiVolBotton::HiVolBotton(QWidget *parent )
     :QWidget(parent)
 {
-    //setWindowFlags(Qt::FramelessWindowHint);
-    //setAttribute(Qt::WA_TranslucentBackground);
-
     volSlider = new QSlider(Qt::Horizontal, this);
     volSlider->setRange(0, 100);
     volSlider->setGeometry(QRect(26,0,75,25));
@@ -18,9 +15,6 @@ HiVolBotton::HiVolBotton(QWidget *parent )
                           "QSlider::sub-page:horizontal{background:#0096ff;}"
                           "QSlider::add-page:horizontal{background:lightgray;} "
                           "QSlider::handle:horizontal{background:white;width:10px;border:#51b5fb 10px;border-radius:5px;margin:-3px 0px -3px 0px;}");
-
-    //volSlider->setVisible(false);
-
 
     volBtn = new HiButton(this);
 
@@ -42,11 +36,6 @@ HiVolBotton::HiVolBotton(QWidget *parent )
     action = new QWidgetAction(this);
     action->setDefaultWidget(volSlider);
     menu->addAction(action);
-    /*menu->setStyleSheet(
-        "QMenu{padding:1px;background:transparent;border:1px transparent;}"
-        "QMenu::item{padding:0px 20px 0px 30px;height:25px;}"
-        "QMenu::item:selected:enabled{background:transparent;color:transparent;}"
-        "QMenu::item:selected:!enabled{background:transparent;}");*/
 
 }
 void HiVolBotton::hi_setSliderVisiable(bool a)

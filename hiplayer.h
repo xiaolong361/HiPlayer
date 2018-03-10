@@ -5,11 +5,6 @@
 //文字滚动速度
 #define TEXT_SPEED 500
 
-//安全回收内存
-#ifndef SAFE_RELEASE
-#define SAFE_RELEASE(p) if(p) { delete p; p = NULL;}
-#endif //SAFE_RELEASE
-
 #include "hiLrcWidget.h"
 #include "hiButton.h"
 #include "aboutDialog.h"

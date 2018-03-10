@@ -278,7 +278,6 @@ void MiniWindow::mousePressEvent(QMouseEvent *event)
     //event->globalPos()鼠标按下时，鼠标相对于整个屏幕位置
     //pos() this->pos()鼠标按下时，窗口相对于父窗口的位置
     m_MovePosition=event->globalPos() - pos();
-    //event->accept();
     return QWidget::mousePressEvent(event);
 }
 
@@ -294,7 +293,6 @@ void MiniWindow::mouseMoveEvent(QMouseEvent *event)
         m_MovePosition = event->globalPos() - pos();
     }
     return QWidget::mouseMoveEvent(event);
-    //event->accept();
 }
 
 void MiniWindow::mouseReleaseEvent(QMouseEvent *)

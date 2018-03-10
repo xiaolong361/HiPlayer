@@ -17,7 +17,6 @@ public:
     void hi_setButtonIcons(const QIcon &normal, const QIcon &focus = QIcon(), const QIcon &pressed = QIcon() );
 
 protected:
-
     //重载“进入”和“离开”事件，进入时切换为另一个图标，离开时还原
     void enterEvent(QEvent *);
     void leaveEvent(QEvent *);

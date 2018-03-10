@@ -4,9 +4,6 @@ LrcLabel::LrcLabel(QWidget *parent)
     : HiLabel(parent)
 {
     setText(QString::fromUtf8("HiPlayer"));
-    //setAttribute(Qt::WA_TranslucentBackground);
-
-    //setAlignment(Qt::AlignCenter);
     // 固定显示区域大小
     setMaximumSize(800, 60);
     setMinimumSize(800, 60);
@@ -64,7 +61,6 @@ void LrcLabel::paintEvent(QPaintEvent *)
     QPainter painter(this);
     painter.setFont(lrcFont);
 
-    //qDebug()<<"LrcLabel::text()"<<text();
     if(text().size() < 2){
         setText("Music...");
     }
